@@ -149,8 +149,8 @@ section{padding:6rem 1.5rem;position:relative}
 .ben-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.3rem}
 .fc{height:220px;perspective:900px;cursor:none;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent}
 @media(pointer:coarse){
-  .fc:hover .fi{transform:none}
-  .fi{transform-style:flat!important}
+  .fc:hover .fi,.fc.flipped .fi{transform:none!important}
+  .fi{transform-style:flat!important;transition:none!important}
   .ff,.fb{backface-visibility:visible!important;transition:none!important}
   .fb{transform:none!important;display:none}
   .fc.flipped .ff{display:none}
