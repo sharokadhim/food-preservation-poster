@@ -432,10 +432,11 @@ if(window.matchMedia('(pointer:fine)').matches){
 if(window.matchMedia('(pointer:coarse)').matches){
   document.getElementById('flip-hint').textContent='Tap each card to learn more.';
   document.querySelectorAll('.fc').forEach(card=>{
+    let startY=0;
+    card.addEventListener('touchstart',e=>{startY=e.touches[0].clientY;},{passive:true});
     card.addEventListener('touchend',e=>{
-      e.preventDefault();
-      card.classList.toggle('flipped');
-    },{passive:false});
+      if(Math.abs(e.changedTouches[0].clientY-startY)<10) card.classList.toggle('flipped');
+    },{passive:true});
   });
 }
 
