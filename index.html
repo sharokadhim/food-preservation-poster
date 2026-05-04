@@ -147,9 +147,17 @@ section{padding:6rem 1.5rem;position:relative}
 /* ── BENEFITS ── */
 #benefits{background:var(--w);padding-top:8rem}
 .ben-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.3rem}
-.fc{height:220px;perspective:900px;cursor:none}
+.fc{height:220px;perspective:900px;cursor:none;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent}
+@media(pointer:coarse){
+  .fc:hover .fi{transform:none}
+  .fi{transform-style:flat!important;transform:none!important}
+  .ff,.fb{transition:opacity .3s ease,visibility .3s;backface-visibility:visible!important}
+  .fb{transform:none!important;opacity:0;visibility:hidden}
+  .fc.flipped .ff{opacity:0;visibility:hidden}
+  .fc.flipped .fb{opacity:1;visibility:visible}
+}
 .fi{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1)}
-.fc:hover .fi{transform:rotateY(180deg)}
+.fc:hover .fi,.fc.flipped .fi{transform:rotateY(180deg)}
 .ff,.fb{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.6rem 1.2rem;text-align:center}
 .ff{background:var(--gray);border:1px solid rgba(0,0,0,.05)}
 .ff .icon{font-size:2.5rem;margin-bottom:.85rem}
@@ -343,7 +351,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.4);text-align:center;paddin
     <div class="sh rv">
       <span class="sh-tag">Why It Matters</span>
       <h2 class="sh-title">6 Key <em>Benefits</em></h2>
-      <p class="sh-sub">Food preservation is a pillar of public health, sustainability, and personal finance. <strong style="color:var(--cr)">Hover each card to learn more.</strong></p>
+      <p class="sh-sub">Food preservation is a pillar of public health, sustainability, and personal finance. <strong style="color:var(--cr)" id="flip-hint">Hover each card to learn more.</strong></p>
     </div>
     <div class="ben-grid">
       <div class="fc rv" data-d="1"><div class="fi"><div class="ff"><div class="icon">💰</div><h4>Saves Money</h4></div><div class="fb"><p>Buy in bulk during sales or harvest season, preserve at peak quality, and cut your weekly grocery bill significantly over time.</p></div></div></div>
@@ -426,6 +434,14 @@ if(window.matchMedia('(pointer:fine)').matches){
       curR.style.borderColor='rgba(255,79,59,.5)';
     });
   });
+}
+
+/* ── FLIP CARDS ── */
+document.querySelectorAll('.fc').forEach(card=>{
+  card.addEventListener('click',()=>card.classList.toggle('flipped'));
+});
+if(window.matchMedia('(pointer:coarse)').matches){
+  document.getElementById('flip-hint').textContent='Tap each card to learn more.';
 }
 
 /* ── SCROLL PROGRESS + NAV ── */
